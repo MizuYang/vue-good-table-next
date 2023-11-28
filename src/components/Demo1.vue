@@ -140,7 +140,7 @@ const columns = reactive([
     field: 'createdAt',
     type: 'date',
     dateInputFormat: 'yyyy-MM-dd',
-    dateOutputFormat: 'MMM do yy',
+    dateOutputFormat: 'yyyy年MM月dd日',
     sortable: true,
     width: ''
   },
