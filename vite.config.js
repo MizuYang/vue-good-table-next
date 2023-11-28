@@ -4,7 +4,7 @@ import { fileURLToPath, URL } from 'url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/vue-good-table/', //! 請輸入儲存庫名稱
+  base: '/vue-good-table-next/', //! 請輸入儲存庫名稱
   plugins: [vue()],
   resolve: {
     alias: [
