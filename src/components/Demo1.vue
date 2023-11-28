@@ -1,6 +1,7 @@
 <template>
-  <div class="position-absolute-center w-100" style="padding:0 100px;">
-    <VueGoodTable :columns="columns" :rows="rows"/>
+  <div class="w-100" style="margin-top:50px;padding:0 100px;">
+    <VueGoodTable :columns="columns" :rows="rows"
+                  :pagination-options="paginationOptions" />
 
     <!-- 設定排序 -->
     <section class="bg-gainsboro mt-10 p-5">
@@ -181,6 +182,25 @@ const colWidth = reactive([
 ])
 const useClassTdName = ref('')
 const hideColName = ref('')
+const paginationOptions = reactive({
+  enabled: true,
+  mode: 'records',
+  // position: 'top', // top|bottom
+  perPage: 4, // 預設顯示的欄位數量
+  perPageDropdown: [2, 4, 6], // 選擇要顯示的欄位數量
+  rowsPerPageLabel: '每頁行數',
+  // dropdownAllowAll: false,
+  // setCurrentPage: 3, // 預設顯示第幾頁
+  nextLabel: '下一頁',
+  prevLabel: '上一頁',
+  ofLabel: 'of',
+  pageLabel: 'page', // for 'pages' mode
+  allLabel: '全部',
+  // 第 1 筆到第 4 筆，共7筆 (第 1 頁，共 2 頁)
+  infoFn: (params) => `
+  第 ${params.firstRecordOnPage} 筆到第 ${params.lastRecordOnPage} 筆，共${params.totalRecords}筆
+  (第 ${params.currentPage} 頁，共 ${params.totalPages} 頁)`
+})
 
 onMounted(() => {
   getTableColWidth()
