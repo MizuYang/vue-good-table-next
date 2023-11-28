@@ -79,6 +79,39 @@
         </template>
       </div>
     </section>
+
+    <!-- 設定隱藏欄位 -->
+    <section class="bg-gainsboro mt-6 p-5">
+      <h3 class="text-18 fw-bold-5 mb-4">設定隱藏欄位</h3>
+      <div class="d-flex align-items-center">
+        <div class='form-check mb-0 me-10'>
+          <input class='form-check-input'
+                 type='radio'
+                 name='hideCol'
+                 id='hideControlNull'
+                 value=""
+                 v-model="hideColName">
+          <label class='form-check-label'
+                 for='hideControlNull'>
+            無
+          </label>
+        </div>
+        <template v-for="col in columns" :key="`hide-${col.field}`">
+          <div class='form-check mb-0 me-10'>
+            <input class='form-check-input'
+                   type='radio'
+                   name='hideCol'
+                   :id='`hideControl-${col.field}`'
+                   :value="col.field"
+                   v-model="hideColName">
+            <label class='form-check-label'
+                   :for='`hideControl-${col.field}`'>
+              {{ col.label }}
+            </label>
+          </div>
+        </template>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -147,6 +180,7 @@ const colWidth = reactive([
   }
 ])
 const useClassTdName = ref('')
+const hideColName = ref('')
 
 onMounted(() => {
   getTableColWidth()
@@ -163,6 +197,14 @@ watchEffect(() => {
     const idx = columns.findIndex(col => col.field === useClassTdName.value)
     columns[idx].thClass = 'bg-danger-s text-danger'
     columns[idx].tdClass = 'bg-danger-s text-light'
+  }
+})
+// hide 控制
+watchEffect(() => {
+  colHideInit()
+  if (hideColName.value) {
+    const idx = columns.findIndex(col => col.field === hideColName.value)
+    columns[idx].hidden = true
   }
 })
 
@@ -183,6 +225,9 @@ function thClassInit () {
     col.tdClass = ''
     col.thClass = ''
   })
+}
+function colHideInit () {
+  columns.forEach(col => (col.hidden = false))
 }
 </script>
 
