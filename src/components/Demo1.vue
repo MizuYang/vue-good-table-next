@@ -1,36 +1,60 @@
 <template>
   <div class="position-absolute-center w-100" style="padding:0 100px;">
     <VueGoodTable :columns="columns" :rows="rows"/>
+
+    <!-- 設定排序 -->
+    <section class="bg-gainsboro mt-10 p-5">
+      <h3 class="text-18 fw-bold-5 mb-4">表格啟用排序功能</h3>
+      <div class="d-flex align-items-center">
+        <tempalte v-for="col in columns" :key="col.id">
+          <div class="form-check me-10">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="flexRadioDefault"
+                   :id="col.field"
+                   @change="col.sortable = !col.sortable"
+                   checked>
+            <label class="form-check-label" :for="col.field">
+              {{ col.label }}
+            </label>
+          </div>
+        </tempalte>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, onMounted } from 'vue'
 import { VueGoodTable } from 'vue-good-table-next'
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 
 // data
 const columns = reactive([
   {
-    label: 'Name',
-    field: 'name'
+    label: '姓名',
+    field: 'name',
+    sortable: true
   },
   {
-    label: 'Age',
+    label: '年齡',
     field: 'age',
-    type: 'number'
+    type: 'number',
+    sortable: true
   },
   {
-    label: 'Created On',
+    label: '建立日期',
     field: 'createdAt',
     type: 'date',
     dateInputFormat: 'yyyy-MM-dd',
-    dateOutputFormat: 'MMM do yy'
+    dateOutputFormat: 'MMM do yy',
+    sortable: true
   },
   {
-    label: 'Percent',
+    label: '分數',
     field: 'score',
-    type: 'percentage'
+    type: 'number',
+    sortable: true
   }
 ])
 const rows = reactive([
@@ -43,8 +67,8 @@ const rows = reactive([
   { id: 7, name: '威廉', age: 26, createdAt: '2023-06-25', score: 37.1 }
 ])
 
-console.log('columns', columns)
-console.log('rows', rows)
+onMounted(() => {
+})
 </script>
 
 <style lang='scss' scope></style>
