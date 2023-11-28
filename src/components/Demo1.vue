@@ -1,8 +1,9 @@
 <template>
-  <div class="w-100" style="margin-top:50px;padding:0 100px;">
+  <div class="w-100" style="margin:15px 0;padding:0 100px;">
     <VueGoodTable :columns="columns" :rows="rows"
                   :pagination-options="paginationOptions"
                   :search-options="searchOptions"
+                  :theme="getThemeName"
                   @page-change="pageChange"
                   @sort-change="sortChange"
                   @per-page-change="perPageChange"
@@ -120,11 +121,26 @@
         </template>
       </div>
     </section>
+
+    <!-- 主題 -->
+    <section class="bg-gainsboro mt-6 p-5">
+      <h3 class="text-18 fw-bold-5 mb-4">設定主題</h3>
+      <div class="d-flex align-items-center">
+        <template v-for="(themeValue, themeName) in themeData" :key="themeValue.enName">
+          <button type="button"
+                  class="btn me-10"
+                  :class="themeValue.enName===curTheme?'btn-primary':'btn-secondary'"
+                  @click="setTheme(themeName)">
+            {{ themeValue.cnName }}
+          </button>
+        </template>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, watchEffect, onMounted } from 'vue'
+import { ref, reactive, computed, watchEffect, onMounted } from 'vue'
 import { VueGoodTable } from 'vue-good-table-next'
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 
@@ -193,7 +209,7 @@ const paginationOptions = reactive({
   enabled: true,
   mode: 'records',
   // position: 'top', // top|bottom
-  perPage: 4, // 預設顯示的欄位數量
+  perPage: 2, // 預設顯示的欄位數量
   perPageDropdown: [2, 4, 6], // 選擇要顯示的欄位數量
   rowsPerPageLabel: '每頁行數',
   // dropdownAllowAll: false, // 下拉選單是否可以選擇 顯示全部
@@ -214,9 +230,38 @@ const searchOptions = reactive({
   skipDiacritics: true,
   placeholder: '輸入搜尋關鍵字'
 })
+const themeData = reactive({
+  default: {
+    enName: 'default',
+    themeName: 'default',
+    cnName: '預設'
+  },
+  polarBear: {
+    enName: 'polarBear',
+    themeName: 'polar-bear',
+    cnName: '北極熊'
+  },
+  blackRhino: {
+    enName: 'blackRhino',
+    themeName: 'black-rhino',
+    cnName: '黑犀牛'
+  },
+  nocturnal: {
+    enName: 'nocturnal',
+    themeName: 'nocturnal',
+    cnName: '夜'
+  }
+})
+const curTheme = ref('default')
 
 onMounted(() => {
   getTableColWidth()
+})
+
+// computed
+// 取得主題
+const getThemeName = computed(() => {
+  return themeData[curTheme.value]?.themeName || ''
 })
 
 // watchEffect
@@ -273,6 +318,9 @@ function rowClick (e) {
 }
 function search (e) {
   console.log('搜尋表格', e)
+}
+function setTheme (themeName) {
+  curTheme.value = themeName
 }
 </script>
 
