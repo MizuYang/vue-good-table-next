@@ -46,11 +46,44 @@
         </template>
       </div>
     </section>
+
+    <!-- 自訂 class -->
+    <section class="bg-gainsboro mt-6 p-5">
+      <h3 class="text-18 fw-bold-5 mb-4">自訂 class (選擇的 col 欄位會套用樣式)</h3>
+      <div class="d-flex align-items-center">
+        <div class='form-check mb-0 me-10'>
+          <input class='form-check-input'
+                 type='radio'
+                 name='flexRadioDefault'
+                 id='classControlNull'
+                 value=""
+                 v-model="useClassTdName">
+          <label class='form-check-label'
+                 for='classControlNull'>
+            無
+          </label>
+        </div>
+        <template v-for="col in columns" :key="`class-${col.field}`">
+          <div class='form-check mb-0 me-10'>
+            <input class='form-check-input'
+                   type='radio'
+                   name='flexRadioDefault'
+                   :id='`classControl-${col.field}`'
+                   :value="col.field"
+                   v-model="useClassTdName">
+            <label class='form-check-label'
+                   :for='`classControl-${col.field}`'>
+              {{ col.label }}
+            </label>
+          </div>
+        </template>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
-import { reactive, onMounted } from 'vue'
+import { ref, reactive, watchEffect, onMounted } from 'vue'
 import { VueGoodTable } from 'vue-good-table-next'
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 
@@ -113,9 +146,24 @@ const colWidth = reactive([
     width: ''
   }
 ])
+const useClassTdName = ref('')
 
 onMounted(() => {
   getTableColWidth()
+  setTimeout(() => {
+
+  }, 1000)
+})
+
+// watchEffect
+// class 控制 (選擇的 col 欄位會套用樣式)
+watchEffect(() => {
+  thClassInit()
+  if (useClassTdName.value) {
+    const idx = columns.findIndex(col => col.field === useClassTdName.value)
+    columns[idx].thClass = 'bg-danger-s text-danger'
+    columns[idx].tdClass = 'bg-danger-s text-light'
+  }
 })
 
 function getTableColWidth () {
@@ -130,6 +178,16 @@ function getTableColWidth () {
 function updateColWidth (e, idx) {
   columns[idx].width = `${e.target.value}px`
 }
+function thClassInit () {
+  columns.forEach(col => {
+    col.tdClass = ''
+    col.thClass = ''
+  })
+}
 </script>
 
-<style lang='scss' scope></style>
+<style lang='scss' scope>
+.bg-danger-s {
+  background-color: rgba(255, 0, 0, 0.356) !important;
+}
+</style>
