@@ -1,7 +1,13 @@
 <template>
   <div class="w-100" style="margin-top:50px;padding:0 100px;">
     <VueGoodTable :columns="columns" :rows="rows"
-                  :pagination-options="paginationOptions" />
+                  :pagination-options="paginationOptions"
+                  @page-change="pageChange"
+                  @sort-change="sortChange"
+                  @per-page-change="perPageChange"
+                  @row-click="rowClick"
+                  @search="search"
+                />
 
     <!-- 設定排序 -->
     <section class="bg-gainsboro mt-10 p-5">
@@ -189,7 +195,7 @@ const paginationOptions = reactive({
   perPage: 4, // 預設顯示的欄位數量
   perPageDropdown: [2, 4, 6], // 選擇要顯示的欄位數量
   rowsPerPageLabel: '每頁行數',
-  // dropdownAllowAll: false,
+  // dropdownAllowAll: false, // 下拉選單是否可以選擇 顯示全部
   // setCurrentPage: 3, // 預設顯示第幾頁
   nextLabel: '下一頁',
   prevLabel: '上一頁',
@@ -204,9 +210,6 @@ const paginationOptions = reactive({
 
 onMounted(() => {
   getTableColWidth()
-  setTimeout(() => {
-
-  }, 1000)
 })
 
 // watchEffect
@@ -248,6 +251,21 @@ function thClassInit () {
 }
 function colHideInit () {
   columns.forEach(col => (col.hidden = false))
+}
+function pageChange (e) {
+  console.log('頁碼改變', e)
+}
+function sortChange (e) {
+  console.log('排序表格', e)
+}
+function perPageChange (e) {
+  console.log('切換每頁行數', e)
+}
+function rowClick (e) {
+  console.log('點擊表格行', e)
+}
+function search (e) {
+  console.log('搜尋表格', e)
 }
 </script>
 
