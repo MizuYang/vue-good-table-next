@@ -1,13 +1,13 @@
-- Vue3 Vite 模板
-  - Vue-Router
-  - Pinia
-  - Bootstrap5
-  - ESLint-standard
-  - Axios
+<a href="https://mizuyang.github.io/vue-good-table-next/#/" target="_blank">Demo</a>
 
-
-- 記得將儲存庫名稱寫入 (搜尋: 儲存庫名稱)
-  - vite.config.js
-    - 靜態頁面路徑設置
-  - deploy.sh
-    - 自動部署指令：.\deploy.sh
+- vue-good-table-next 套件
+  - 表格基本架構
+  - 設定表格是否可排序
+  - 動態修改欄位名稱
+  - 動態修改欄位寬度
+  - 動態加入自訂 className
+  - 設定是否隱藏欄位
+  - 修改日期輸出的格式
+  - 使用分頁模式(可控制每頁顯示行數、跳轉到不同頁碼)
+  - 表格事件監聽
+  - 表格搜尋功能
