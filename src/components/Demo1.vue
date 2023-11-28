@@ -2,6 +2,7 @@
   <div class="w-100" style="margin-top:50px;padding:0 100px;">
     <VueGoodTable :columns="columns" :rows="rows"
                   :pagination-options="paginationOptions"
+                  :search-options="searchOptions"
                   @page-change="pageChange"
                   @sort-change="sortChange"
                   @per-page-change="perPageChange"
@@ -206,6 +207,12 @@ const paginationOptions = reactive({
   infoFn: (params) => `
   第 ${params.firstRecordOnPage} 筆到第 ${params.lastRecordOnPage} 筆，共${params.totalRecords}筆
   (第 ${params.currentPage} 頁，共 ${params.totalPages} 頁)`
+})
+const searchOptions = reactive({
+  enabled: true,
+  trigger: 'keyup', // enter|keyup
+  skipDiacritics: true,
+  placeholder: '輸入搜尋關鍵字'
 })
 
 onMounted(() => {
