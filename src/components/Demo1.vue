@@ -33,6 +33,19 @@
         </template>
       </div>
     </section>
+
+    <!-- 設定欄位寬度 -->
+    <section class="bg-gainsboro mt-6 p-5">
+      <h3 class="text-18 fw-bold-5 mb-4">修改表格 col 寬度</h3>
+      <div class="d-flex align-items-center">
+        <template v-for="(col, idx) in colWidth" :key="`col-${idx}`">
+          <input type="number"
+                 class="form-control mb-3"
+                 :value="col.width"
+                 @input="updateColWidth($event,idx)">
+        </template>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -46,13 +59,15 @@ const columns = reactive([
   {
     label: '姓名',
     field: 'name',
-    sortable: true
+    sortable: true,
+    width: ''
   },
   {
     label: '年齡',
     field: 'age',
     type: 'number',
-    sortable: true
+    sortable: true,
+    width: ''
   },
   {
     label: '建立日期',
@@ -60,13 +75,15 @@ const columns = reactive([
     type: 'date',
     dateInputFormat: 'yyyy-MM-dd',
     dateOutputFormat: 'MMM do yy',
-    sortable: true
+    sortable: true,
+    width: ''
   },
   {
     label: '分數',
     field: 'score',
     type: 'number',
-    sortable: true
+    sortable: true,
+    width: ''
   }
 ])
 const rows = reactive([
@@ -78,9 +95,41 @@ const rows = reactive([
   { id: 6, name: '瑪莉', age: 24, createdAt: '2023-07-30', score: 33.6 },
   { id: 7, name: '威廉', age: 26, createdAt: '2023-06-25', score: 37.1 }
 ])
+const colWidth = reactive([
+  {
+    field: 'name',
+    width: ''
+  },
+  {
+    field: 'age',
+    width: ''
+  },
+  {
+    field: 'createdAt',
+    width: ''
+  },
+  {
+    field: 'score',
+    width: ''
+  }
+])
 
 onMounted(() => {
+  getTableColWidth()
 })
+
+function getTableColWidth () {
+  const table = document.querySelector('#vgt-table')
+  const thead = table.children[1]
+  const tr = thead.children[0]
+  const thArray = [...tr.children]
+  thArray.forEach((th, idx) => {
+    colWidth[idx].width = th.clientWidth
+  })
+}
+function updateColWidth (e, idx) {
+  columns[idx].width = `${e.target.value}px`
+}
 </script>
 
 <style lang='scss' scope></style>
