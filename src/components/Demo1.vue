@@ -21,6 +21,18 @@
         </tempalte>
       </div>
     </section>
+
+    <!-- 設定欄位名稱 -->
+    <section class="bg-gainsboro mt-6 p-5">
+      <h3 class="text-18 fw-bold-5 mb-4">修改表格 col 名稱</h3>
+      <div class="d-flex align-items-center">
+        <template v-for="col in columns" :key="col.id">
+          <input type="text"
+                 class="form-control mb-3"
+                 v-model="col.label">
+        </template>
+      </div>
+    </section>
   </div>
 </template>
 
